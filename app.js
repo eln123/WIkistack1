@@ -1,5 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
+const { db, Page, User } = require('./models');
+
 
 const app = express();
 
@@ -26,6 +28,19 @@ app.get("/", (req, res) => {
 
 const PORT = 3000;
 
+const init = async () => {
+  await db.sync({force: true})
+//
+
 app.listen(PORT, () => {
   console.log("Listening to port: ", PORT);
 });
+};
+
+init();
+
+
+db.authenticate()
+  .then(() => {
+    console.log('connected to the database');
+  })
